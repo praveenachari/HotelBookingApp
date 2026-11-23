@@ -1,49 +1,60 @@
-const App = () => {
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { assets } from '../assets/assets'
 
-    return (
-        <form className='bg-white text-gray-500 rounded-lg px-6 py-4  flex flex-col md:flex-row max-md:items-start gap-4 max-md:mx-auto'>
+const HotelCard = ({ room, index }) => {
+  return (
+    <Link
+      to={'/rooms/' + room._id}
+      onClick={() => scrollTo(0, 0)}
+      className='block w-full bg-white text-gray-500/90 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow'
+    >
+      {/* Image Wrapper */}
+      <div className='relative h-48 w-full overflow-hidden'>
+        <img
+          src={room.images[0]}
+          alt={room.hotel.name}
+          className='w-full h-full object-cover'
+        />
+        {index % 2 === 0 && (
+          <p className='px-3 py-1 absolute top-3 left-3 text-xs bg-white text-gray-800 font-medium rounded-full shadow-sm'>
+            Best Seller
+          </p>
+        )}
+      </div>
 
-            <div>
-                <div className='flex items-center gap-2'>
-                    <svg className="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" >
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 10h16M8 14h8m-4-7V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-                    </svg>
-                    <label htmlFor="destinationInput">Destination</label>
-                </div>
-                <input list='destinations' id="destinationInput" type="text" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none" placeholder="Type here" required />
-            </div>
+      {/* Card Body */}
+      <div className='p-4 pt-5'>
+        <div className='flex items-center justify-between gap-2'>
+          <p className='font-playfair text-xl font-medium text-gray-800 truncate'>
+            {room.hotel.name}
+          </p>
+          <div className='flex items-center gap-1 shrink-0 text-sm text-gray-700'>
+            <img src={assets.starIconFilled} alt='star-icon' className='w-4 h-4' />
+            <span>4.5</span>
+          </div>
+        </div>
 
-            <div>
-                <div className='flex items-center gap-2'>
-                    <svg className="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" >
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 10h16M8 14h8m-4-7V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-                    </svg>
-                    <label htmlFor="checkIn">Check in</label>
-                </div>
-                <input id="checkIn" type="date" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none" />
-            </div>
+        <div className='flex items-center gap-1 text-sm mt-1'>
+          <img src={assets.locationIcon} alt='location-icon' className='w-4 h-4 shrink-0' />
+          <span className='truncate'>{room.hotel.address}</span>
+        </div>
 
-            <div>
-                <div className='flex items-center gap-2'>
-                    <svg className="w-4 h-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" >
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 10h16M8 14h8m-4-7V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-                    </svg>
-                    <label htmlFor="checkOut">Check out</label>
-                </div>
-                <input id="checkOut" type="date" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none" />
-            </div>
-
-            <div className='flex md:flex-col max-md:gap-2 max-md:items-center'>
-                <label htmlFor="guests">Guests</label>
-                <input min={1} max={4} id="guests" type="number" className=" rounded border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none  max-w-16" placeholder="0" />
-            </div>
-
-            <button className='flex items-center justify-center gap-1 rounded-md bg-black py-3 px-4 text-white my-auto cursor-pointer max-md:w-full max-md:py-1' >
-                <svg className="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" >
-                    <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
-                </svg>
-                <span>Search</span>
-            </button>
-        </form>
-    );
+        <div className='flex items-center justify-between mt-4'>
+          <p>
+            <span className='text-xl font-medium text-gray-800'>${room.pricePerNight}</span>
+            <span className='text-sm text-gray-500'>/night</span>
+          </p>
+          <button
+            type='button'
+            className='px-4 py-2 text-sm font-medium border border-gray-300 rounded hover:bg-gray-50 transition-all cursor-pointer'
+          >
+            Book Now
+          </button>
+        </div>
+      </div>
+    </Link>
+  )
 }
+
+export default HotelCard
